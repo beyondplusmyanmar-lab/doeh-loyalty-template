@@ -53,4 +53,4 @@ Open **Rewards**:
 
 - The app talks to the platform **only** through `@beyondplusmm/doehpos-sdk`.
 - Sandbox data is isolated and reset daily — experiment freely.
-- `typecheck` runs `tsc --noEmit`: `pnpm typecheck`.
+- `pnpm check` runs both gates: `validate:brand` (schema) + `typecheck` (`tsc --noEmit`).

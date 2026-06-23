@@ -1,0 +1,100 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://developers.doehpos.com/schemas/brand.schema.json",
+  "title": "DOEH Loyalty Template — brand config",
+  "description": "Single source of truth for white-label branding. Drives both the in-app identity (src/config/brand.ts) and the native/store identity (app.config.js).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "slug", "scheme", "tagline", "icon", "splash", "colors", "ios", "android", "loyalty"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Path/URL to this schema, for editor validation."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "App display name (header, home, store listing)."
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "Expo project slug (kebab-case)."
+    },
+    "scheme": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*$",
+      "description": "Deep-link URL scheme (lowercase, no spaces)."
+    },
+    "tagline": {
+      "type": "string",
+      "description": "Short line shown on the home screen."
+    },
+    "icon": {
+      "type": "string",
+      "pattern": "\\.png$",
+      "description": "Path to the 1024x1024 app icon PNG."
+    },
+    "splash": {
+      "type": "string",
+      "pattern": "\\.png$",
+      "description": "Path to the splash image PNG."
+    },
+    "colors": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["primary", "bg", "card"],
+      "properties": {
+        "primary": { "$ref": "#/$defs/hex", "description": "Buttons and accents." },
+        "bg": { "$ref": "#/$defs/hex", "description": "Screen + splash background." },
+        "card": { "$ref": "#/$defs/hex", "description": "Cards / surfaces." }
+      }
+    },
+    "ios": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bundleIdentifier"],
+      "properties": {
+        "bundleIdentifier": { "$ref": "#/$defs/bundleId", "description": "iOS bundle identifier (reverse-DNS)." },
+        "teamId": {
+          "type": "string",
+          "pattern": "^[A-Z0-9]{10}$",
+          "description": "Apple Team ID. Optional — consumed by `eas submit`, NOT compiled into the binary."
+        }
+      }
+    },
+    "android": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["package"],
+      "properties": {
+        "package": { "$ref": "#/$defs/bundleId", "description": "Android application id (reverse-DNS)." }
+      }
+    },
+    "loyalty": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["currencySymbol", "pointsPerCurrencyUnit"],
+      "properties": {
+        "currencySymbol": { "type": "string", "minLength": 1, "description": "Display only, e.g. \"Ks\", \"$\"." },
+        "pointsPerCurrencyUnit": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Points awarded per 1 unit of spend (applied client-side before loyalty.earn)."
+        }
+      }
+    }
+  },
+  "$defs": {
+    "hex": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$",
+      "description": "A #rrggbb hex colour."
+    },
+    "bundleId": {
+      "type": "string",
+      "pattern": "^[a-zA-Z][a-zA-Z0-9_]*(\\.[a-zA-Z][a-zA-Z0-9_]*)+$",
+      "description": "Reverse-DNS identifier, e.g. com.acme.rewards."
+    }
+  }
+}

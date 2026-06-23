@@ -1,10 +1,22 @@
 {
+  "$schema": "./brand.schema.json",
   "name": "Your Brand Rewards",
+  "slug": "your-brand-rewards",
+  "scheme": "yourbrand",
   "tagline": "Earn points every visit.",
+  "icon": "./assets/icon.png",
+  "splash": "./assets/splash.png",
   "colors": {
     "primary": "#5b8cff",
     "bg": "#0b1020",
     "card": "#161c2e"
+  },
+  "ios": {
+    "bundleIdentifier": "com.yourbrand.rewards",
+    "teamId": "ABCDE12345"
+  },
+  "android": {
+    "package": "com.yourbrand.rewards"
   },
   "loyalty": {
     "currencySymbol": "Ks",

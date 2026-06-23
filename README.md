@@ -14,8 +14,9 @@ Apple / Google accounts. DOEH provides the SDK, APIs, sandbox, and this template
 
 - **Loyalty** — look up a member, earn points (by purchase amount → points), redeem
   points, and read the history ledger. Backed by the stable `loyalty` SDK module.
-- **Branding** — name, tagline, colours, and points scheme live in `brand.json`;
-  a swap takes a couple of minutes (see [docs/BRANDING.md](./docs/BRANDING.md)).
+- **Branding** — name, colours, native ids, and points scheme all live in **one**
+  schema-validated file, `brand.json` (single source of truth for the app *and* the
+  Expo build). A swap takes a couple of minutes (see [docs/BRANDING.md](./docs/BRANDING.md)).
 - **SDK-first** — every network call goes through `@beyondplusmm/doehpos-sdk`.
   There is **no raw HTTP** anywhere in the app.
 
@@ -46,14 +47,17 @@ tokens to the app. See [docs/PRODUCTION.md](./docs/PRODUCTION.md).
 ## Layout
 
 ```
-app/            expo-router screens (index, loyalty, settings + gated stubs)
-src/api/        SDK client factory (the only network seam)
-src/hooks/      useDoehClient, useLoyalty
-src/store/      secure credential store
-src/config/     brand, env, feature flags
-src/components/ themed UI kit (colours from brand.json)
-brand.json      ← your white-label config
-docs/           QUICKSTART · BRANDING · PRODUCTION
+app/              expo-router screens (index, loyalty, settings + gated stubs)
+src/api/          SDK client factory (the only network seam)
+src/hooks/        useDoehClient, useLoyalty
+src/store/        secure credential store
+src/config/       brand, env, feature flags
+src/components/   themed UI kit (colours from brand.json)
+brand.json        ← your white-label config (single source of truth)
+brand.schema.json JSON schema for brand.json (editor + CI validation)
+app.config.js     derives the Expo/native config from brand.json
+scripts/          validate-brand.mjs (pnpm validate:brand)
+docs/             QUICKSTART · BRANDING · PRODUCTION
 ```
 
 ## License

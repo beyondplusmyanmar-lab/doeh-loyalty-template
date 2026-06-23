@@ -1,20 +1,34 @@
 import raw from "../../brand.json";
 
 /**
- * The white-label contract. Editing `brand.json` (and the matching fields in
- * `app.json`) is the entire branding step — a missing/invalid field throws here
- * at load time, which fails the build, not the App Store review (E3).
+ * The white-label contract — single source of truth for branding. `brand.json`
+ * drives BOTH this in-app identity and the native/store identity (app.config.js).
  *
- * M3 hardens this into a JSON-schema-validated config; v1 validates the fields
- * the UI actually depends on.
+ * Authoritative validation is the JSON schema (`brand.schema.json`), run in CI /
+ * pre-publish via `pnpm validate:brand`. The lightweight checks below are a
+ * runtime backstop for the fields the UI actually reads, so a bad config throws
+ * at load (failing the build) rather than rendering broken — they intentionally
+ * do NOT pull a JSON-schema validator into the app bundle.
  */
 export interface Brand {
   name: string;
+  slug: string;
+  scheme: string;
   tagline: string;
+  icon: string;
+  splash: string;
   colors: {
     primary: string;
     bg: string;
     card: string;
+  };
+  ios: {
+    bundleIdentifier: string;
+    /** Apple Team ID — used by `eas submit`, not the binary. */
+    teamId?: string;
+  };
+  android: {
+    package: string;
   };
   loyalty: {
     /** Display-only, e.g. "Ks", "$". The platform stores points, not currency. */
@@ -30,9 +44,10 @@ export interface Brand {
 const HEX = /^#[0-9a-fA-F]{6}$/;
 
 function assert(cond: unknown, msg: string): asserts cond {
-  if (!cond) throw new Error(`brand.json invalid: ${msg}`);
+  if (!cond) throw new Error(`brand.json invalid: ${msg} (run \`pnpm validate:brand\` for details)`);
 }
 
+// Backstop for the runtime-relevant fields only; the schema validates the rest.
 function validate(b: Brand): Brand {
   assert(typeof b.name === "string" && b.name.trim().length > 0, "name is required");
   assert(typeof b.tagline === "string", "tagline must be a string");

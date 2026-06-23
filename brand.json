@@ -1,10 +1,21 @@
 {
+  "$schema": "./brand.schema.json",
   "name": "Acme Rewards",
+  "slug": "acme-rewards",
+  "scheme": "acmerewards",
   "tagline": "Earn points every visit.",
+  "icon": "./assets/icon.png",
+  "splash": "./assets/splash.png",
   "colors": {
     "primary": "#5b8cff",
     "bg": "#0b1020",
     "card": "#161c2e"
+  },
+  "ios": {
+    "bundleIdentifier": "com.acme.rewards"
+  },
+  "android": {
+    "package": "com.acme.rewards"
   },
   "loyalty": {
     "currencySymbol": "Ks",
