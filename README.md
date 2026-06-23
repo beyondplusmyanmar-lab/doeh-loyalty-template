@@ -5,10 +5,14 @@ Fork it, drop in your brand and a key, run EAS Build, and publish under **your o
 Apple / Google accounts. DOEH provides the SDK, APIs, sandbox, and this template —
 **you** own the app.
 
-> Status: **v1 — Loyalty Starter** (M2 scaffold). This is the durable, SDK-first
-> frame that grows into the full Merchant Mobile Starter Kit as platform
-> capabilities ship. See [`docs/`](./docs) and the epic spec in the SDK repo
-> (`docs/MERCHANT-STARTER-KIT-EPIC.md`).
+> Status: **v1 — Loyalty Starter.** A complete, store-publishable loyalty app:
+> SDK-first screens, one-file branding, a reference token broker for production,
+> and EAS build/submit docs. It's the durable frame that grows into the full
+> Merchant Mobile Starter Kit as platform capabilities ship. See [`docs/`](./docs)
+> and the epic spec in the SDK repo (`docs/MERCHANT-STARTER-KIT-EPIC.md`).
+
+> **New here? Start with [docs/ONBOARDING.md](./docs/ONBOARDING.md)** — the
+> clone-to-published-app journey, with a checklist and links to each step.
 
 ## What it does today
 
@@ -60,7 +64,7 @@ brand.schema.json JSON schema for brand.json (editor + CI validation)
 app.config.js     derives the Expo/native config from brand.json
 scripts/          validate-brand.mjs, loyalty.smoke.mjs
 broker/           reference token broker for production (you deploy + own it)
-docs/             QUICKSTART · BRANDING · PRODUCTION · EAS
+docs/             ONBOARDING · QUICKSTART · BRANDING · PRODUCTION · EAS
 ```
 
 ## License
