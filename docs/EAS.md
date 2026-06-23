@@ -102,6 +102,9 @@ on a device.
 
 ## 6. Submit to the stores
 
+> Work the [SUBMISSION.md](./SUBMISSION.md) checklist (TestFlight / Play, store
+> declarations, reviewer access) before and during this step.
+
 ```bash
 eas submit --profile production --platform ios       # → App Store Connect
 eas submit --profile production --platform android   # → Google Play

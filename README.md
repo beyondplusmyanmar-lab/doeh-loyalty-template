@@ -64,7 +64,7 @@ brand.schema.json JSON schema for brand.json (editor + CI validation)
 app.config.js     derives the Expo/native config from brand.json
 scripts/          validate-brand.mjs, loyalty.smoke.mjs
 broker/           reference token broker for production (you deploy + own it)
-docs/             ONBOARDING · QUICKSTART · BRANDING · PRODUCTION · EAS
+docs/             ONBOARDING · QUICKSTART · BRANDING · PRODUCTION · EAS · SUBMISSION
 ```
 
 ## License

@@ -64,10 +64,11 @@ secret and issues short-lived tokens to the app), then **replace the device-auth
 stub** with your real sign-in and point `EXPO_PUBLIC_BROKER_URL` at it.
 ✅ **Checkpoint:** `npm test` in `broker/` is green; the deployed `/healthz` responds.
 
-### Stage 7 — Build & submit → [EAS.md](./EAS.md)
+### Stage 7 — Build & submit → [EAS.md](./EAS.md) · [SUBMISSION.md](./SUBMISSION.md)
 `eas build --profile production` then `eas submit`, under your own developer
 accounts. Sandbox→production is an env switch (`EXPO_PUBLIC_ENV` + broker URL) —
-no screen code changes.
+no screen code changes. Work the [TestFlight/Play checklist](./SUBMISSION.md)
+before you hit submit.
 ✅ **Checkpoint:** builds pass and your apps are in App Store Connect / Play Console.
 
 ### Stage 8 — After launch
@@ -102,6 +103,7 @@ no screen code changes.
 | [PRODUCTION.md](./PRODUCTION.md) | Why/how the secret stays server-side |
 | [broker/README.md](../broker/README.md) | Deploy + own the token broker |
 | [EAS.md](./EAS.md) | Build and submit to the stores |
+| [SUBMISSION.md](./SUBMISSION.md) | TestFlight / Play pre-submission checklist |
 
 ## Help
 
