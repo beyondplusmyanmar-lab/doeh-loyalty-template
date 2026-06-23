@@ -1,5 +1,20 @@
-import { DoehClient, type Environment } from "@beyondplusmm/doehpos-sdk";
+import { DoehClient, type Environment, type AccountResponse, type PointsInput } from "@beyondplusmm/doehpos-sdk";
 import { BROKER_URL, USER_AGENT } from "@/config/env";
+
+/**
+ * The loyalty surface the app actually uses. The real `DoehClient` satisfies this
+ * (it has these methods), and so does the in-memory mock (`mockClient.ts`). The
+ * app codes against this interface, so mock mode is a drop-in — no screen changes.
+ */
+export interface LoyaltyApi {
+  earn(memberId: string, input: PointsInput, opts?: { idempotencyKey?: string }): Promise<AccountResponse>;
+  redeem(memberId: string, input: PointsInput, opts?: { idempotencyKey?: string }): Promise<AccountResponse>;
+  getMember(memberId: string): Promise<AccountResponse>;
+}
+
+export interface LoyaltyClient {
+  loyalty: LoyaltyApi;
+}
 
 /**
  * Build the SDK client. This is the ONLY place the app talks to the network —

@@ -5,6 +5,8 @@
   "description": "Clone-and-own merchant loyalty app for the DOEH platform — SDK-first, brandable, store-publishable.",
   "main": "expo-router/entry",
   "scripts": {
+    "bootstrap": "node scripts/bootstrap.mjs",
+    "doctor": "node scripts/doctor.mjs",
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",

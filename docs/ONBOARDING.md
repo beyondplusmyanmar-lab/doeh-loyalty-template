@@ -38,9 +38,10 @@ Mint a **sandbox** `sk_test_` key with the **loyalty** module in scope from the
 everything below — no production access required to build and test.
 
 ### Stage 2 — Clone & run → [QUICKSTART.md](./QUICKSTART.md)
-Clone, `pnpm install`, paste the key in Settings, open **Rewards**. You should be
-earning and redeeming points against the sandbox within a few minutes.
-✅ **Checkpoint:** points earn, redeem, and the balance reads back.
+Clone, then `pnpm bootstrap` (installs deps, sets up `.env`, checks your
+toolchain). Start in **mock mode** (`EXPO_PUBLIC_DOEH_MODE=mock pnpm start`) to
+explore the UI with no key, or paste your sandbox key in Settings and `pnpm start`.
+✅ **Checkpoint:** points earn, redeem, and the balance reads back (mock or sandbox).
 
 ### Stage 3 — Make it yours → [BRANDING.md](./BRANDING.md)
 Edit one file, `brand.json` (name, colours, native ids, icon/splash, points
@@ -81,10 +82,10 @@ before you hit submit.
 
 ## One-page checklist
 
-- [ ] Sandbox `sk_test_` key with loyalty scope
-- [ ] `pnpm install` and the app runs against sandbox
-- [ ] `brand.json` edited; `pnpm validate:brand` passes; assets replaced
-- [ ] `pnpm smoke:loyalty` green
+- [ ] `pnpm bootstrap` and the app runs (mock mode, or sandbox with an `sk_test_` key)
+- [ ] `brand.json` edited; assets replaced
+- [ ] `pnpm doctor` green (config, assets, eas.json, key/broker posture)
+- [ ] `pnpm smoke:loyalty` green (with a sandbox key)
 - [ ] `pnpm check` green (`validate:brand` + `typecheck`)
 - [ ] Broker deployed, device-auth stub replaced, `EXPO_PUBLIC_BROKER_URL` set
 - [ ] `broker/` `npm test` green

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ScrollView } from "react-native";
 import { useRouter } from "expo-router";
 import { useCredentials } from "@/store/credentials";
+import { MOCK } from "@/config/env";
 import { Body, Button, Card, Field, Muted, Pill, Screen, Title, colors } from "@/components/ui";
 
 export default function Settings() {
@@ -32,6 +33,18 @@ export default function Settings() {
   return (
     <ScrollView style={{ backgroundColor: colors.bg }}>
       <Screen>
+        {MOCK ? (
+          <Card>
+            <Title>Mock mode</Title>
+            <Body>
+              <Pill text="mock" tone="warn" /> No key needed — loyalty calls are served
+              by an in-memory mock.
+            </Body>
+            <Muted>
+              Unset EXPO_PUBLIC_DOEH_MODE to talk to the real sandbox/production API.
+            </Muted>
+          </Card>
+        ) : null}
         <Card>
           <Title>Environment</Title>
           <Body>

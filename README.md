@@ -34,13 +34,14 @@ not exist yet. They turn on when their epics ship (`src/config/features.ts`).
 
 ```bash
 git clone <your-fork> my-rewards-app && cd my-rewards-app
-pnpm install
-cp .env.example .env        # optional: prefill a sandbox key
-pnpm start                  # press i / a, or scan the QR
+pnpm bootstrap                          # installs deps, sets up .env, checks your toolchain
+EXPO_PUBLIC_DOEH_MODE=mock pnpm start   # build the UI with NO key (in-memory data)
 ```
 
-Paste an `sk_test_` key in **Settings** (or set `EXPO_PUBLIC_DOEH_API_KEY` in `.env`),
-then open **Rewards**. Full walkthrough: [docs/QUICKSTART.md](./docs/QUICKSTART.md).
+That's it — **mock mode** lets you explore earn/redeem/history with no sandbox key.
+To use the real sandbox instead, paste an `sk_test_` key in **Settings** (or set
+`EXPO_PUBLIC_DOEH_API_KEY` in `.env`) and run `pnpm start`. Run `pnpm doctor`
+anytime to validate your config. Full walkthrough: [docs/QUICKSTART.md](./docs/QUICKSTART.md).
 
 ## Going to production
 
@@ -62,7 +63,7 @@ src/components/   themed UI kit (colours from brand.json)
 brand.json        ← your white-label config (single source of truth)
 brand.schema.json JSON schema for brand.json (editor + CI validation)
 app.config.js     derives the Expo/native config from brand.json
-scripts/          validate-brand.mjs, loyalty.smoke.mjs
+scripts/          bootstrap, doctor, validate-brand, loyalty.smoke
 broker/           reference token broker for production (you deploy + own it)
 docs/             ONBOARDING · QUICKSTART · BRANDING · PRODUCTION · EAS · SUBMISSION
 ```

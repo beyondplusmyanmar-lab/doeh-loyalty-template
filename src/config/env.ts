@@ -20,4 +20,11 @@ export const PREFILL_API_KEY = process.env.EXPO_PUBLIC_DOEH_API_KEY ?? "";
 /** Production token-broker base URL (M5 — documented, not yet wired). */
 export const BROKER_URL = process.env.EXPO_PUBLIC_BROKER_URL ?? "";
 
+/**
+ * Mock mode — build the loyalty UI with no sandbox key. Set
+ * `EXPO_PUBLIC_DOEH_MODE=mock`. Backed by an in-memory mock client (template
+ * feature; not an SDK flag). See docs/QUICKSTART.md.
+ */
+export const MOCK = process.env.EXPO_PUBLIC_DOEH_MODE === "mock";
+
 export const USER_AGENT = "doeh-loyalty-template/0.1.0";

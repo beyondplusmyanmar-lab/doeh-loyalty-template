@@ -7,22 +7,32 @@ From clone to a running loyalty app in a few minutes, against the DOEH **sandbox
 - Node 18+ and [pnpm](https://pnpm.io)
 - The [Expo Go](https://expo.dev/go) app on your phone, or an iOS Simulator /
   Android emulator
-- A DOEH **sandbox** API key (`sk_test_…`) with the **loyalty** module in scope.
-  Mint one from the [developer portal](https://developers.doehpos.com) or with
+- *(Optional for mock mode)* a DOEH **sandbox** API key (`sk_test_…`) with the
+  **loyalty** module in scope. Mint one from the
+  [developer portal](https://developers.doehpos.com) or with
   `api-client:mint --target-env=test`.
 
-## 2. Install & run
+## 2. Bootstrap & run
 
 ```bash
 git clone <your-fork> my-rewards-app
 cd my-rewards-app
-pnpm install
+pnpm bootstrap            # installs deps, creates .env, checks Node/Expo
+```
+
+`pnpm bootstrap` is the one-command setup. Then run it one of two ways:
+
+```bash
+# A) Mock mode — no key, no network, in-memory data. Great for building the UI:
+EXPO_PUBLIC_DOEH_MODE=mock pnpm start
+
+# B) Against the real sandbox (needs an sk_test_ key — see step 3):
 pnpm start
 ```
 
 Press `i` (iOS), `a` (Android), or scan the QR with Expo Go.
 
-## 3. Add your key
+## 3. Add your key (skip in mock mode)
 
 Two options:
 
@@ -31,6 +41,10 @@ Two options:
 - **Dev convenience:** copy `.env.example` to `.env` and set
   `EXPO_PUBLIC_DOEH_API_KEY=sk_test_…`. This prefills the key on reload.
   **Sandbox only** — `EXPO_PUBLIC_*` is compiled into the binary.
+
+> **Mock mode** (`EXPO_PUBLIC_DOEH_MODE=mock`) swaps in an in-memory loyalty
+> client so earn/redeem/history work with no key — it's a template convenience,
+> not an SDK flag. Unset it to talk to the real API.
 
 ## 4. Use it
 
@@ -67,6 +81,9 @@ and never written to disk.
 
 ## Notes
 
-- The app talks to the platform **only** through `@beyondplusmm/doehpos-sdk`.
+- The app talks to the platform **only** through `@beyondplusmm/doehpos-sdk`
+  (or the in-memory mock in mock mode).
 - Sandbox data is isolated and reset daily — experiment freely.
+- `pnpm doctor` validates your config (brand.json, bundle ids, assets, eas.json,
+  env, key/broker posture) — run it before building.
 - `pnpm check` runs both gates: `validate:brand` (schema) + `typecheck` (`tsc --noEmit`).

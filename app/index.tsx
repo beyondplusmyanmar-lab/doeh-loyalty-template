@@ -4,12 +4,13 @@ import { useRouter } from "expo-router";
 import { useCredentials } from "@/store/credentials";
 import { brand } from "@/config/brand";
 import { FEATURES } from "@/config/features";
+import { MOCK } from "@/config/env";
 import { Body, Button, Card, Muted, Pill, Screen, Title, colors } from "@/components/ui";
 
 export default function Home() {
   const router = useRouter();
   const { apiKey, environment, loaded } = useCredentials();
-  const configured = Boolean(apiKey);
+  const configured = MOCK || Boolean(apiKey);
 
   return (
     <ScrollView style={{ backgroundColor: colors.bg }}>
@@ -23,7 +24,9 @@ export default function Home() {
           </Body>
           <Body>
             Key:{" "}
-            {configured ? (
+            {MOCK ? (
+              <Pill text="mock mode" tone="warn" />
+            ) : configured ? (
               <Pill text={`${apiKey!.slice(0, 11)}…`} tone="good" />
             ) : (
               <Pill text="not set" tone="warn" />
@@ -33,7 +36,9 @@ export default function Home() {
 
         <Card>
           <Title>Rewards</Title>
-          {!configured && loaded ? (
+          {MOCK ? (
+            <Muted>Mock mode — points are in-memory, no key or network needed.</Muted>
+          ) : !configured && loaded ? (
             <Body color={colors.warn}>Set your sandbox key in Settings first.</Body>
           ) : null}
           <Button
