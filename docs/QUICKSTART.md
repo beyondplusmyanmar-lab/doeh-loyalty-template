@@ -44,7 +44,22 @@ Open **Rewards**:
   ("Insufficient points"); no points move.
 - **History** — the ledger of earns/redeems.
 
-## 5. Make it yours
+## 5. Verify against the sandbox (optional)
+
+Before building the UI on a device, you can confirm the loyalty flow works
+end-to-end against the live sandbox — through the same SDK the app uses:
+
+```bash
+export DOEH_API_KEY=sk_test_…        # sandbox key with loyalty scope
+pnpm smoke:loyalty
+```
+
+It runs lookup → earn-by-amount → read back → redeem → insufficient-points (409)
+→ idempotent replay against a fresh member, using your `brand.json` points ratio.
+Without a key it no-ops, so it's safe in CI. The key is read from the environment
+and never written to disk.
+
+## 6. Make it yours
 
 - Branding: [BRANDING.md](./BRANDING.md)
 - Shipping to the stores: [PRODUCTION.md](./PRODUCTION.md)

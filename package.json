@@ -11,6 +11,7 @@
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
     "validate:brand": "node scripts/validate-brand.mjs",
+    "smoke:loyalty": "node scripts/loyalty.smoke.mjs",
     "check": "pnpm validate:brand && pnpm typecheck"
   },
   "dependencies": {
