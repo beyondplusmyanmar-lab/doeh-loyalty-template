@@ -41,8 +41,9 @@ then open **Rewards**. Full walkthrough: [docs/QUICKSTART.md](./docs/QUICKSTART.
 ## Going to production
 
 The app **never** embeds an `sk_live_` key. Production publishing uses a thin
-**token broker** you run, which holds the secret server-side and issues short-lived
-tokens to the app. See [docs/PRODUCTION.md](./docs/PRODUCTION.md).
+**token broker** you run (shipped in [`broker/`](./broker)) — it holds the secret
+server-side and issues short-lived tokens to the app. See
+[docs/PRODUCTION.md](./docs/PRODUCTION.md) and [broker/README.md](./broker/README.md).
 
 ## Layout
 
@@ -56,7 +57,8 @@ src/components/   themed UI kit (colours from brand.json)
 brand.json        ← your white-label config (single source of truth)
 brand.schema.json JSON schema for brand.json (editor + CI validation)
 app.config.js     derives the Expo/native config from brand.json
-scripts/          validate-brand.mjs (pnpm validate:brand)
+scripts/          validate-brand.mjs, loyalty.smoke.mjs
+broker/           reference token broker for production (you deploy + own it)
 docs/             QUICKSTART · BRANDING · PRODUCTION
 ```
 

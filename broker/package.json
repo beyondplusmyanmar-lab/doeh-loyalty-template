@@ -1,0 +1,19 @@
+{
+  "name": "doeh-loyalty-broker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Reference token broker for the DOEH Loyalty Template — holds sk_live_ server-side and issues short-lived tokens to the app.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node test/broker.test.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

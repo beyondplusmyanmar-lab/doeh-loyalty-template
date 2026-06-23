@@ -1,0 +1,16 @@
+services:
+  broker:
+    build: .
+    image: doeh-loyalty-broker
+    ports:
+      - "8787:8787"
+    env_file:
+      - .env
+    environment:
+      PORT: 8787
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:8787/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3

@@ -41,23 +41,28 @@ new DoehClient({ apiKey: brokerToken, baseUrl: EXPO_PUBLIC_BROKER_URL, userAgent
 
 Set `EXPO_PUBLIC_BROKER_URL` (eas.json `production` profile / `.env`).
 
-### What the reference broker provides (M5 — coming)
+### The reference broker — shipped in [`broker/`](../broker)
 
 Intentionally **minimal**:
 
-- Issue short-lived access tokens
-- Hold `sk_live_` server-side
-- Token refresh
-- Token revocation example
-- Dockerfile + deployment examples
+- Issue short-lived access tokens (`POST /auth/token`)
+- Hold `sk_live_` server-side and inject it on every proxied call
+- Token refresh (`POST /auth/refresh`)
+- Token revocation (`POST /auth/revoke`)
+- Dockerfile + docker-compose + a self-contained test
 
 Explicitly **out of scope** (yours, or a future platform capability): user
 management, billing, social login, push notifications, analytics, device
 attestation, hosted identity.
 
-> The reference broker is **not yet shipped** in this scaffold. The seam above is
-> in place; the broker service and its sign-in flow land in M5. Until then, this
-> template runs in **sandbox** mode.
+> Run `npm test` in `broker/` to see the security-critical behaviour proven
+> against a mock upstream (no key needed): token lifecycle, the key swap, and
+> verbatim error passthrough. Full setup + the "before you go live" checklist are
+> in [broker/README.md](../broker/README.md).
+>
+> **Two things you must do before production:** replace the device-auth stub in
+> `broker/src/server.js`, and back the in-memory session store with Redis/a DB if
+> you run more than one instance.
 
 ## Building & submitting (EAS)
 
