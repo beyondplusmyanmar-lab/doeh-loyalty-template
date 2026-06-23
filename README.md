@@ -1,0 +1,61 @@
+# DOEH Loyalty Template
+
+A **clone-and-own** merchant loyalty app for the [DOEH platform](https://developers.doehpos.com).
+Fork it, drop in your brand and a key, run EAS Build, and publish under **your own**
+Apple / Google accounts. DOEH provides the SDK, APIs, sandbox, and this template —
+**you** own the app.
+
+> Status: **v1 — Loyalty Starter** (M2 scaffold). This is the durable, SDK-first
+> frame that grows into the full Merchant Mobile Starter Kit as platform
+> capabilities ship. See [`docs/`](./docs) and the epic spec in the SDK repo
+> (`docs/MERCHANT-STARTER-KIT-EPIC.md`).
+
+## What it does today
+
+- **Loyalty** — look up a member, earn points (by purchase amount → points), redeem
+  points, and read the history ledger. Backed by the stable `loyalty` SDK module.
+- **Branding** — name, tagline, colours, and points scheme live in `brand.json`;
+  a swap takes a couple of minutes (see [docs/BRANDING.md](./docs/BRANDING.md)).
+- **SDK-first** — every network call goes through `@beyondplusmm/doehpos-sdk`.
+  There is **no raw HTTP** anywhere in the app.
+
+## What's intentionally gated
+
+Sign in, Shop (catalog), and Cart ship as **flagged-off stubs** — visible parts of
+the frame that make **no API calls**, because the platform surface behind them does
+not exist yet. They turn on when their epics ship (`src/config/features.ts`).
+
+## Quick start
+
+```bash
+git clone <your-fork> my-rewards-app && cd my-rewards-app
+pnpm install
+cp .env.example .env        # optional: prefill a sandbox key
+pnpm start                  # press i / a, or scan the QR
+```
+
+Paste an `sk_test_` key in **Settings** (or set `EXPO_PUBLIC_DOEH_API_KEY` in `.env`),
+then open **Rewards**. Full walkthrough: [docs/QUICKSTART.md](./docs/QUICKSTART.md).
+
+## Going to production
+
+The app **never** embeds an `sk_live_` key. Production publishing uses a thin
+**token broker** you run, which holds the secret server-side and issues short-lived
+tokens to the app. See [docs/PRODUCTION.md](./docs/PRODUCTION.md).
+
+## Layout
+
+```
+app/            expo-router screens (index, loyalty, settings + gated stubs)
+src/api/        SDK client factory (the only network seam)
+src/hooks/      useDoehClient, useLoyalty
+src/store/      secure credential store
+src/config/     brand, env, feature flags
+src/components/ themed UI kit (colours from brand.json)
+brand.json      ← your white-label config
+docs/           QUICKSTART · BRANDING · PRODUCTION
+```
+
+## License
+
+See [LICENSE](./LICENSE).

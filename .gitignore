@@ -1,0 +1,21 @@
+# dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+# expo-env.d.ts is committed so a fresh clone typechecks before `expo start`
+
+# native
+ios/
+android/
+
+# secrets — never commit a real key or a populated env
+.env
+.env.local
+.env*.local
+
+# misc
+*.log
+.DS_Store

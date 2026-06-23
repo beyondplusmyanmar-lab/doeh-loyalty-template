@@ -1,0 +1,13 @@
+{
+  "name": "Your Brand Rewards",
+  "tagline": "Earn points every visit.",
+  "colors": {
+    "primary": "#5b8cff",
+    "bg": "#0b1020",
+    "card": "#161c2e"
+  },
+  "loyalty": {
+    "currencySymbol": "Ks",
+    "pointsPerCurrencyUnit": 1
+  }
+}
