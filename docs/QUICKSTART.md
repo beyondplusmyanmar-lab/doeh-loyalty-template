@@ -62,7 +62,8 @@ and never written to disk.
 ## 6. Make it yours
 
 - Branding: [BRANDING.md](./BRANDING.md)
-- Shipping to the stores: [PRODUCTION.md](./PRODUCTION.md)
+- Production & the token broker: [PRODUCTION.md](./PRODUCTION.md)
+- Building & submitting to the stores: [EAS.md](./EAS.md)
 
 ## Notes
 

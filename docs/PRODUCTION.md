@@ -66,18 +66,14 @@ attestation, hosted identity.
 
 ## Building & submitting (EAS)
 
-```bash
-npm i -g eas-cli && eas login
-eas build:configure
-eas build --profile production --platform ios       # or android / all
-eas submit --profile production --platform ios       # or android
-```
+The full build-and-publish pipeline — prerequisites, credentials, env vars, build
+profiles, store submission, and troubleshooting — is in **[EAS.md](./EAS.md)**.
 
-- `eas.json` defines `development` / `preview` (sandbox) and `production` profiles;
-  `EXPO_PUBLIC_ENV` is set per profile.
-- Set `EXPO_PUBLIC_BROKER_URL` as an EAS environment variable / secret for the
-  production profile.
-- Builds publish under **your** Apple Developer and Google Play accounts.
+In short: `eas.json` defines `development` / `preview` (sandbox) and `production`
+profiles with `EXPO_PUBLIC_ENV` pinned per profile; set `EXPO_PUBLIC_BROKER_URL`
+for the production environment; then `eas build --profile production` and
+`eas submit`. Builds publish under **your** Apple Developer and Google Play
+accounts.
 
 ## Future: native publishable keys
 
