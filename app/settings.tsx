@@ -95,6 +95,15 @@ export default function Settings() {
             />
           </Card>
         )}
+
+        {/* Developer-only — hidden in production builds. */}
+        {!isProd ? (
+          <Card>
+            <Title>Developer Tools</Title>
+            <Muted>Inspect environment, members, and the ledger; seed/reset mock state.</Muted>
+            <Button title="Open Sandbox Inspector" variant="ghost" onPress={() => router.push("/developer")} />
+          </Card>
+        ) : null}
       </Screen>
     </ScrollView>
   );

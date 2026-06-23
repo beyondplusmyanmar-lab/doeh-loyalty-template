@@ -23,6 +23,8 @@ Apple / Google accounts. DOEH provides the SDK, APIs, sandbox, and this template
   Expo build). A swap takes a couple of minutes (see [docs/BRANDING.md](./docs/BRANDING.md)).
 - **SDK-first** — every network call goes through `@beyondplusmm/doehpos-sdk`.
   There is **no raw HTTP** anywhere in the app.
+- **Developer tools** — `pnpm bootstrap` / `pnpm doctor`, a no-key **mock mode**,
+  and a dev-only **Sandbox Inspector** (Settings → Developer Tools).
 
 ## What's intentionally gated
 

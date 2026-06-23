@@ -32,6 +32,7 @@ export default function RootLayout() {
             <Stack.Screen name="index" options={{ title: brand.name }} />
             <Stack.Screen name="loyalty" options={{ title: "Rewards" }} />
             <Stack.Screen name="settings" options={{ title: "Settings" }} />
+            <Stack.Screen name="developer" options={{ title: "Developer Tools" }} />
             <Stack.Screen name="login" options={{ title: "Sign in" }} />
             <Stack.Screen name="catalog" options={{ title: "Shop" }} />
             <Stack.Screen name="cart" options={{ title: "Cart" }} />

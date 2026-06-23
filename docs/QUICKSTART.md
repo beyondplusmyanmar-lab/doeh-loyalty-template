@@ -79,6 +79,13 @@ and never written to disk.
 - Production & the token broker: [PRODUCTION.md](./PRODUCTION.md)
 - Building & submitting to the stores: [EAS.md](./EAS.md)
 
+## Developer Tools (Sandbox Inspector)
+
+In sandbox / mock builds, **Settings → Developer Tools → Sandbox Inspector** shows
+environment, a member's balance + ledger, and (in **mock mode**) lets you seed or
+reset state — handy while building screens. It's developer-only and hidden in
+production builds. Tier shown there is a client-side demo, not a platform concept.
+
 ## Notes
 
 - The app talks to the platform **only** through `@beyondplusmm/doehpos-sdk`

@@ -25,7 +25,15 @@ interface MockMember {
   ledger: LedgerEntry[];
 }
 
-function makeMock(): LoyaltyClient {
+/** Mock-only admin surface used by the Sandbox Inspector (not part of the SDK). */
+export interface MockAdmin {
+  /** Wipe all mock members + idempotency cache. */
+  reset(): void;
+  /** Set a member to a fixed balance with a single "seed" ledger entry. */
+  seed(memberId: string, balance: number, reason?: string): void;
+}
+
+function makeMock(): { client: LoyaltyClient; admin: MockAdmin } {
   const members = new Map<string, MockMember>();
   const seen = new Map<string, AccountResponse>(); // idempotency replay
 
@@ -48,7 +56,7 @@ function makeMock(): LoyaltyClient {
     if (key) seen.set(key, res);
   };
 
-  return {
+  const client: LoyaltyClient = {
     loyalty: {
       async getMember(memberId) {
         const m = members.get(memberId);
@@ -84,11 +92,29 @@ function makeMock(): LoyaltyClient {
       },
     },
   };
+
+  const admin: MockAdmin = {
+    reset() {
+      members.clear();
+      seen.clear();
+    },
+    seed(memberId, balance, reason = "seed") {
+      members.set(memberId, { balance, ledger: [entry("earn", balance, reason)] });
+    },
+  };
+
+  return { client, admin };
 }
 
 // Singleton so mock state survives navigation/re-renders within a session.
-let singleton: LoyaltyClient | null = null;
+let singleton: { client: LoyaltyClient; admin: MockAdmin } | null = null;
+const ensure = () => (singleton ??= makeMock());
+
 export function getMockClient(): LoyaltyClient {
-  if (!singleton) singleton = makeMock();
-  return singleton;
+  return ensure().client;
+}
+
+/** Mock-only admin (reset/seed) for the Sandbox Inspector. */
+export function getMockAdmin(): MockAdmin {
+  return ensure().admin;
 }
