@@ -1,0 +1,24 @@
+{
+  "$schema": "./brand.schema.json",
+  "name": "Golden Crust",
+  "slug": "golden-crust",
+  "scheme": "goldencrust",
+  "tagline": "Fresh-baked, every visit counts.",
+  "icon": "./assets/icon.png",
+  "splash": "./assets/splash.png",
+  "colors": {
+    "primary": "#E0A458",
+    "bg": "#1A140C",
+    "card": "#2A2014"
+  },
+  "ios": {
+    "bundleIdentifier": "com.example.bakery"
+  },
+  "android": {
+    "package": "com.example.bakery"
+  },
+  "loyalty": {
+    "currencySymbol": "$",
+    "pointsPerCurrencyUnit": 1
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "./brand.schema.json",
+  "name": "Sandbox Coffee",
+  "slug": "sandbox-coffee",
+  "scheme": "sandboxcoffee",
+  "tagline": "Your daily cup, rewarded.",
+  "icon": "./assets/icon.png",
+  "splash": "./assets/splash.png",
+  "colors": {
+    "primary": "#6F4E37",
+    "bg": "#1A120B",
+    "card": "#2A1E14"
+  },
+  "ios": {
+    "bundleIdentifier": "com.example.coffee"
+  },
+  "android": {
+    "package": "com.example.coffee"
+  },
+  "loyalty": {
+    "currencySymbol": "$",
+    "pointsPerCurrencyUnit": 1
+  }
+}

@@ -45,7 +45,9 @@ explore the UI with no key, or paste your sandbox key in Settings and `pnpm star
 
 ### Stage 3 — Make it yours → [BRANDING.md](./BRANDING.md)
 Edit one file, `brand.json` (name, colours, native ids, icon/splash, points
-ratio). Run `pnpm validate:brand`. Replace the placeholder assets.
+ratio). Run `pnpm validate:brand`. Replace the placeholder assets. For a fast
+start, copy a pack from [examples/](../examples) (coffee shop, salon, bakery,
+restaurant, bookstore) and tweak from there.
 ✅ **Checkpoint:** `pnpm validate:brand` passes and the app shows your brand.
 
 ### Stage 4 — Verify against the sandbox → [QUICKSTART.md §5](./QUICKSTART.md)

@@ -1,0 +1,24 @@
+{
+  "$schema": "./brand.schema.json",
+  "name": "Margin Notes",
+  "slug": "margin-notes",
+  "scheme": "marginnotes",
+  "tagline": "Read more, earn more.",
+  "icon": "./assets/icon.png",
+  "splash": "./assets/splash.png",
+  "colors": {
+    "primary": "#3F6FB0",
+    "bg": "#0E141C",
+    "card": "#18202C"
+  },
+  "ios": {
+    "bundleIdentifier": "com.example.bookstore"
+  },
+  "android": {
+    "package": "com.example.bookstore"
+  },
+  "loyalty": {
+    "currencySymbol": "$",
+    "pointsPerCurrencyUnit": 1
+  }
+}

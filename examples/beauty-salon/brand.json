@@ -1,0 +1,24 @@
+{
+  "$schema": "./brand.schema.json",
+  "name": "Glow Beauty",
+  "slug": "glow-beauty",
+  "scheme": "glowbeauty",
+  "tagline": "Look good, earn rewards.",
+  "icon": "./assets/icon.png",
+  "splash": "./assets/splash.png",
+  "colors": {
+    "primary": "#E91E63",
+    "bg": "#1A0E14",
+    "card": "#2A1622"
+  },
+  "ios": {
+    "bundleIdentifier": "com.example.glow"
+  },
+  "android": {
+    "package": "com.example.glow"
+  },
+  "loyalty": {
+    "currencySymbol": "$",
+    "pointsPerCurrencyUnit": 2
+  }
+}

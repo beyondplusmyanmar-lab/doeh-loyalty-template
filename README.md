@@ -65,10 +65,17 @@ src/components/   themed UI kit (colours from brand.json)
 brand.json        ← your white-label config (single source of truth)
 brand.schema.json JSON schema for brand.json (editor + CI validation)
 app.config.js     derives the Expo/native config from brand.json
-scripts/          bootstrap, doctor, validate-brand, loyalty.smoke
+scripts/          bootstrap, doctor, validate-brand, validate-examples, loyalty.smoke
 broker/           reference token broker for production (you deploy + own it)
+examples/         ready-to-copy brand packs (coffee-shop, salon, bakery, …)
 docs/             ONBOARDING · QUICKSTART · BRANDING · PRODUCTION · EAS · SUBMISSION
 ```
+
+## Example brands
+
+Want to see it as your business? Copy a pack from [`examples/`](./examples) —
+coffee shop, beauty salon, bakery, restaurant, or bookstore — run `pnpm doctor`,
+and you have a branded app in minutes. Branding only, no business logic.
 
 ## License
 

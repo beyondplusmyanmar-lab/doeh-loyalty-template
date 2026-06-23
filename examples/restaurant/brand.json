@@ -1,0 +1,24 @@
+{
+  "$schema": "./brand.schema.json",
+  "name": "Harvest Table",
+  "slug": "harvest-table",
+  "scheme": "harvesttable",
+  "tagline": "Dine in, earn points.",
+  "icon": "./assets/icon.png",
+  "splash": "./assets/splash.png",
+  "colors": {
+    "primary": "#C0392B",
+    "bg": "#160F0E",
+    "card": "#271715"
+  },
+  "ios": {
+    "bundleIdentifier": "com.example.restaurant"
+  },
+  "android": {
+    "package": "com.example.restaurant"
+  },
+  "loyalty": {
+    "currencySymbol": "$",
+    "pointsPerCurrencyUnit": 1
+  }
+}
