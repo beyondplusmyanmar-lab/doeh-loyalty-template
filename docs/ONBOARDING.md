@@ -51,7 +51,7 @@ restaurant, bookstore) and tweak from there.
 ✅ **Checkpoint:** `pnpm validate:brand` passes and the app shows your brand.
 
 ### Stage 4 — Verify against the sandbox → [QUICKSTART.md §5](./QUICKSTART.md)
-Run `DOEH_API_KEY=sk_test_… pnpm smoke:loyalty` to exercise the full flow
+Run `DOEH_API_KEY=sk_test_… pnpm smoke:sandbox` to exercise the full flow
 (earn-by-amount → redeem → insufficient-points → idempotent replay) end-to-end.
 ✅ **Checkpoint:** the smoke check is green.
 
@@ -87,7 +87,7 @@ before you hit submit.
 - [ ] `pnpm bootstrap` and the app runs (mock mode, or sandbox with an `sk_test_` key)
 - [ ] `brand.json` edited; assets replaced
 - [ ] `pnpm doctor` green (config, assets, eas.json, key/broker posture)
-- [ ] `pnpm smoke:loyalty` green (with a sandbox key)
+- [ ] `pnpm smoke:sandbox` green (with a sandbox key)
 - [ ] `pnpm check` green (`validate:brand` + `typecheck`)
 - [ ] Broker deployed, device-auth stub replaced, `EXPO_PUBLIC_BROKER_URL` set
 - [ ] `broker/` `npm test` green

@@ -1,14 +1,16 @@
-// Live loyalty smoke check for the template. Exercises the SAME flow the app's
-// screens drive (lookup → earn-by-amount → read back → redeem → insufficient →
-// idempotent replay), through the SAME published SDK the app imports, against the
-// real sandbox. This is the M4 "green against sandbox" evidence.
+// DOEH Sandbox Smoke — the one-command operator check for the Loyalty Starter.
 //
 //   export DOEH_API_KEY=sk_test_...     # a sandbox key with loyalty scope
-//   pnpm smoke:loyalty                  # or: node scripts/loyalty.smoke.mjs
+//   pnpm smoke:sandbox                  # (alias: pnpm smoke:loyalty)
 //
-// Uses a FRESH random member each run and asserts RELATIVE balance arithmetic, so
-// it is deterministic regardless of prior runs and of the brand's points ratio.
-// Without a key it no-ops (exit 0) so it is safe to wire into CI.
+// Exercises the SAME flow the app's screens drive (key → reachability → member →
+// earn → balance → redeem → over-redeem 409 → idempotent replay), through the SAME
+// published SDK the app imports, against the real sandbox. This is the M4
+// "green against sandbox" evidence.
+//
+// A FRESH random member each run and RELATIVE balance arithmetic keep it
+// deterministic regardless of prior runs and of the brand's points ratio.
+// Without a key it prints a friendly SKIP and exits 0, so it stays CI-safe.
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
@@ -28,73 +30,98 @@ const pointsFor = (amount) => Math.floor(amount * RATIO);
 
 const KEY = process.env.DOEH_API_KEY;
 const BASE = process.env.DOEH_API_BASE;
+const TARGET = BASE ?? "sandbox";
+
 let pass = 0,
   fail = 0;
-const check = (label, ok, detail = "") => {
-  console.log(`  ${ok ? "✓" : "✗"} ${label}${detail ? `  — ${detail}` : ""}`);
-  ok ? pass++ : fail++;
+const ok = (label) => {
+  console.log(`  \x1b[32m✓\x1b[0m ${label}`);
+  pass++;
 };
+const bad = (label, detail = "") => {
+  console.log(`  \x1b[31m✗\x1b[0m ${label}${detail ? `  — ${detail}` : ""}`);
+  fail++;
+};
+const check = (label, cond, detail = "") => (cond ? ok(label) : bad(label, detail));
 
 const opts = BASE ? { baseUrl: BASE } : { environment: "sandbox" };
 
+console.log("\nDOEH Sandbox Smoke");
+console.log(`  brand: ${brand.name}  ·  ratio ${RATIO} pt/${SYM}  ·  target ${TARGET}\n`);
+
 async function main() {
-  console.log(`loyalty smoke → ${BASE ?? "sandbox"}  (ratio ${RATIO} pt/${SYM})`);
+  // 1. key present — friendly SKIP (exit 0) so this stays safe in CI.
   if (!KEY) {
-    console.log("  (no DOEH_API_KEY set — skipping live calls)");
-    return finish();
+    bad("key present");
+    console.log("\n  No sandbox key found. Export one and re-run:\n");
+    console.log("    export DOEH_API_KEY=sk_test_xxx");
+    console.log("    pnpm smoke:sandbox\n");
+    console.log("  Mint a sandbox loyalty key from the DOEH developer portal.\n");
+    console.log("SKIP");
+    process.exit(0);
   }
+  ok("key present");
 
   const c = new DoehClient({ apiKey: KEY, userAgent: "doeh-loyalty-template-smoke/0.1.0", ...opts });
   const member = "TMPL_SMOKE_" + Math.random().toString(16).slice(2, 10);
-  console.log(`  member = ${member}`);
 
-  // 0. lookup a never-seen member -> 404 (the screen renders "earn to create").
+  // 2. sandbox reachable + 3. fresh member -> 404 (a structured 404 IS proof we
+  //    reached the API and it answered; a transport error is the reachability fail).
   try {
     await c.loyalty.getMember(member);
-    check("fresh lookup -> 404", false, "no error thrown");
+    ok("sandbox reachable");
+    bad("fresh member is unknown (404)", "member already existed");
   } catch (e) {
-    check("fresh lookup -> MemberNotFoundError", e instanceof MemberNotFoundError, e?.code ?? `${e}`);
+    if (e instanceof MemberNotFoundError) {
+      ok("sandbox reachable");
+      ok(`fresh member is unknown (404)  [${member}]`);
+    } else {
+      ok; // not reached
+      bad("sandbox reachable", e?.message ?? `${e}`);
+      console.log("\n  Could not reach the sandbox API. Check the key and network.\n");
+      return finish();
+    }
   }
 
-  // 1. earn by purchase amount -> auto-provisions; balance == pointsFor(amount).
+  // 4. earn by purchase amount -> auto-provisions; balance == pointsFor(amount).
   const buy1 = 1000;
   const p1 = pointsFor(buy1);
   const e1 = await c.loyalty.earn(member, { points: p1, reason: "in-store purchase" });
-  check(`earn ${SYM}${buy1} (=${p1} pts) -> balance ${p1}`, e1.ok === true && e1.account.balance === p1, `balance=${e1.account.balance}`);
+  check(`earn ${SYM}${buy1} → ${p1} pts`, e1.ok === true && e1.account.balance === p1, `balance=${e1.account.balance}`);
 
-  // 2. earn again -> balance accumulates.
+  // 5. earn again -> balance accumulates.
   const buy2 = 250;
   const p2 = pointsFor(buy2);
   const e2 = await c.loyalty.earn(member, { points: p2, reason: "purchase" });
-  check(`earn ${SYM}${buy2} (=${p2} pts) -> balance ${p1 + p2}`, e2.account.balance === p1 + p2, `balance=${e2.account.balance}`);
+  check(`earn ${SYM}${buy2} → ${p1 + p2} pts (accumulates)`, e2.account.balance === p1 + p2, `balance=${e2.account.balance}`);
 
-  // 3. read back (the "Look up balance" button).
+  // 6. read back (the "Look up balance" button).
   const r = await c.loyalty.getMember(member);
-  check(`getMember -> balance ${p1 + p2}`, r.account.balance === p1 + p2, `balance=${r.account.balance}`);
+  check(`balance reads ${p1 + p2}`, r.account.balance === p1 + p2, `balance=${r.account.balance}`);
 
-  // 4. redeem some points.
+  // 7. redeem some points.
   const red = Math.max(1, Math.floor((p1 + p2) / 3));
-  const rd = await c.loyalty.redeem(member, { points: red, reason: "reward" });
   const afterRedeem = p1 + p2 - red;
-  check(`redeem ${red} -> balance ${afterRedeem}`, rd.account.balance === afterRedeem, `balance=${rd.account.balance}`);
+  const rd = await c.loyalty.redeem(member, { points: red, reason: "reward" });
+  check(`redeem ${red} → ${afterRedeem}`, rd.account.balance === afterRedeem, `balance=${rd.account.balance}`);
 
-  // 5. redeem over balance -> 409, no deduction (the screen's negative path).
+  // 8. redeem over balance -> 409, no deduction (the screen's negative path).
   try {
     await c.loyalty.redeem(member, { points: afterRedeem + 1_000_000 });
-    check("redeem over balance -> 409", false, "no error thrown");
+    bad("over-redeem rejected (409)", "no error thrown");
   } catch (e) {
-    const ok = e instanceof InsufficientPointsError && e.body?.balance === afterRedeem;
-    check("redeem over balance -> InsufficientPointsError (balance unchanged)", ok, `code=${e?.code} balance=${e?.body?.balance}`);
+    const good = e instanceof InsufficientPointsError && e.body?.balance === afterRedeem;
+    check("over-redeem rejected (409, balance unchanged)", good, `code=${e?.code} balance=${e?.body?.balance}`);
   }
   const after = await c.loyalty.getMember(member);
   check(`balance still ${afterRedeem} after rejected redeem`, after.account.balance === afterRedeem, `balance=${after.account.balance}`);
 
-  // 6. redeem idempotency — same key twice deducts once.
+  // 9. redeem idempotency — same key twice deducts once.
   const idem = "tmpl-smoke-" + Math.random().toString(16).slice(2, 10);
   const i1 = await c.loyalty.redeem(member, { points: 1 }, { idempotencyKey: idem });
   const i2 = await c.loyalty.redeem(member, { points: 1 }, { idempotencyKey: idem });
   check(
-    "redeem idempotency: same key deducts once (replay flagged)",
+    "idempotent redeem deducts once (replay flagged)",
     i1.account.balance === afterRedeem - 1 && i2.account.balance === afterRedeem - 1 && i2.idempotent === true,
     `b1=${i1.account.balance} b2=${i2.account.balance} idem=${i2.idempotent}`,
   );
@@ -103,8 +130,13 @@ async function main() {
 }
 
 function finish() {
-  console.log(`\nResult: ${pass} passed, ${fail} failed`);
-  process.exit(fail ? 1 : 0);
+  const total = pass + fail;
+  if (fail) {
+    console.log(`\n\x1b[31mFAIL\x1b[0m  (${pass}/${total})\n`);
+    process.exit(1);
+  }
+  console.log(`\n\x1b[32mPASS\x1b[0m  (${pass}/${total})\n`);
+  process.exit(0);
 }
 
 main().catch((e) => {

@@ -7,7 +7,7 @@ and read [EAS.md](./EAS.md).
 
 ## 0. DOEH pre-flight (do these first)
 
-- [ ] `pnpm check` and `pnpm smoke:loyalty` (with a sandbox key) are green
+- [ ] `pnpm check` and `pnpm smoke:sandbox` (with a sandbox key) are green
 - [ ] `brand.json` final: `name`, `slug`, `scheme`, `ios.bundleIdentifier`, `android.package`, `ios.teamId`, icon, splash, points ratio
 - [ ] Production icon (1024×1024, no alpha for iOS) and splash replaced in `assets/`
 - [ ] **No `sk_live_` anywhere in the app or its EAS env** (grep the repo + `eas env:list`)

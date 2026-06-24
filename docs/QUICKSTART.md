@@ -65,7 +65,7 @@ end-to-end against the live sandbox — through the same SDK the app uses:
 
 ```bash
 export DOEH_API_KEY=sk_test_…        # sandbox key with loyalty scope
-pnpm smoke:loyalty
+pnpm smoke:sandbox
 ```
 
 It runs lookup → earn-by-amount → read back → redeem → insufficient-points (409)
