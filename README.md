@@ -5,11 +5,14 @@ Fork it, drop in your brand and a key, run EAS Build, and publish under **your o
 Apple / Google accounts. DOEH provides the SDK, APIs, sandbox, and this template —
 **you** own the app.
 
-> Status: **v1 — Loyalty Starter.** A complete, store-publishable loyalty app:
-> SDK-first screens, one-file branding, a reference token broker for production,
-> and EAS build/submit docs. It's the durable frame that grows into the full
-> Merchant Mobile Starter Kit as platform capabilities ship. See [`docs/`](./docs)
-> and the epic spec in the SDK repo (`docs/MERCHANT-STARTER-KIT-EPIC.md`).
+> Status: **v1.2.1 — Loyalty Starter. FROZEN** (maintenance mode — bug fixes, SDK
+> parity, docs, and Expo upgrades only; see [`STATUS.md`](./STATUS.md)). A complete,
+> store-publishable loyalty app: SDK-first screens, one-file branding, a reference
+> token broker for production, and EAS build/submit docs. It's the durable frame
+> that grows into the full Merchant Mobile Starter Kit **as platform capabilities
+> ship** (next: M8 publishable key — design in [`docs/M8-ADR.md`](./docs/M8-ADR.md)).
+> See [`docs/`](./docs) and the epic spec in the SDK repo
+> (`docs/MERCHANT-STARTER-KIT-EPIC.md`).
 
 > **New here? Start with [docs/ONBOARDING.md](./docs/ONBOARDING.md)** — the
 > clone-to-published-app journey, with a checklist and links to each step.
