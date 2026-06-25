@@ -1,0 +1,29 @@
+[Unit]
+Description=DOEH Loyalty Broker (reference token broker)
+Documentation=https://github.com/beyondplusmyanmar-lab/doeh-loyalty-template
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# Where you cloned/copied this broker/ directory:
+WorkingDirectory=/opt/doeh-broker
+# No build step — the broker runs its entrypoint directly:
+ExecStart=/usr/bin/node src/index.js
+# Secrets (DOEH_API_KEY / BROKER_JWT_SECRET / DEVICE_SHARED_SECRET) live in .env,
+# never in this unit. Keep .env 600 and owned by the service user.
+EnvironmentFile=/opt/doeh-broker/.env
+User=deploy
+Group=deploy
+Restart=always
+RestartSec=2
+
+# --- Optional hardening (safe defaults; the broker keeps sessions in-memory and
+# --- only needs outbound HTTPS, so it does not write to disk at runtime). ---
+NoNewPrivileges=true
+PrivateTmp=true
+# ProtectSystem=strict
+# ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target

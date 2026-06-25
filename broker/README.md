@@ -33,15 +33,44 @@ picture.
 
 ## Run it
 
+Configure secrets first (same for every mode):
+
 ```bash
 cp .env.example .env          # fill in DOEH_API_KEY, BROKER_JWT_SECRET, DEVICE_SHARED_SECRET
-npm install
-npm start                     # node src/index.js
-# or:
-docker compose up --build
+npm ci                        # or: npm install
 ```
 
 Generate strong secrets, e.g. `openssl rand -hex 32` for `BROKER_JWT_SECRET`.
+
+**Development** — foreground process:
+
+```bash
+npm start                     # node src/index.js
+```
+
+**Production (recommended) — systemd.** Running the broker as a native service is the
+first-class deployment model; no containers required. Copy this `broker/` directory to
+e.g. `/opt/doeh-broker`, then:
+
+```bash
+sudo cp deploy/doeh-broker.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now doeh-broker
+systemctl status doeh-broker          # logs: journalctl -u doeh-broker -f
+```
+
+Adjust `WorkingDirectory` / `User` / `EnvironmentFile` in the unit if your paths differ.
+There is **no build step** — the service runs `src/index.js` directly. (PM2 works too:
+`pm2 start src/index.js --name doeh-broker`.)
+
+**Optional — Docker.** A `Dockerfile` and `docker-compose.yml` ship for teams that prefer
+containers; they are not required:
+
+```bash
+docker compose up --build
+```
+
+See [docs/DEPLOYMENT-MODES.md](../docs/DEPLOYMENT-MODES.md) for the full deployment doctrine.
 
 ## Test
 
