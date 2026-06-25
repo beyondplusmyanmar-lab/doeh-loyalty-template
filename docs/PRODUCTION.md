@@ -8,6 +8,24 @@
 This is the difference between the sandbox demo (safe to embed `sk_test_`) and a
 real production app.
 
+## Production authentication
+
+| Environment | Auth | Broker |
+|---|---|---|
+| **Sandbox** | `DOEH_API_KEY=sk_test_…` (safe to embed) | **Not required** |
+| **Production** | short-lived token from your broker | **Required** — until publishable keys (see *Future*) |
+
+Requirements for production:
+
+- The merchant deploys the broker; the broker stores `sk_live_` **server-side**.
+- The mobile app **never** embeds `sk_live_` — it only ever holds a short-lived broker token.
+- The broker may run under **systemd** (recommended), **PM2**, **Node**, **Bun**, or
+  **Docker** (optional) — see [DEPLOYMENT-MODES.md](./DEPLOYMENT-MODES.md) and
+  [broker/README.md](../broker/README.md).
+
+> **DOEH does not provide managed broker hosting.** The reference broker is infrastructure
+> you deploy and own.
+
 ## The token-broker model (v1)
 
 Until DOEH ships a publishable / device-token key (see *Future* below), production
@@ -49,7 +67,8 @@ Intentionally **minimal**:
 - Hold `sk_live_` server-side and inject it on every proxied call
 - Token refresh (`POST /auth/refresh`)
 - Token revocation (`POST /auth/revoke`)
-- Dockerfile + docker-compose + a self-contained test
+- A systemd unit ([`deploy/doeh-broker.service`](../broker/deploy/doeh-broker.service), the
+  recommended run path), Dockerfile + docker-compose (optional), and a self-contained test
 
 Explicitly **out of scope** (yours, or a future platform capability): user
 management, billing, social login, push notifications, analytics, device
