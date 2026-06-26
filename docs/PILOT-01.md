@@ -76,6 +76,24 @@ they opened, and any wording that confused them.
 | Overall rating (1–5) | |
 | **Severity** (blocker / high / medium / low) | |
 
+## Business signal (ask after the run — these probe the model, not the DX)
+
+> The pilot tests a hypothesis: that a merchant/developer will **clone → brand →
+> deploy broker → submit** rather than buy a SaaS app from DOEH. These questions
+> reveal whether the model holds, independent of how smooth the tooling felt.
+
+| Question | Answer |
+|---|---|
+| Would you use this for a real client? | yes / no — why |
+| Would you pay for a DOEH-hosted broker? | yes / no — what price feels fair |
+| Would you rather just use a SaaS loyalty app? | yes / no — why |
+| Biggest concern | |
+| Biggest surprise | |
+| What almost made you stop | |
+
+*Read against the promotion signals below: "pay for hosted broker" / "hate running
+the broker" → **M8**; "rather use SaaS" → revisit the platform-vs-product thesis.*
+
 ## Top fixes this pilot surfaced
 
 1.
